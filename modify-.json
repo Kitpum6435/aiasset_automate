@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "image_title": "Business Meeting Collaboration",
+        "prompts": "A group of diverse professionals engaged in a corporate meeting in a modern, well-lit boardroom. The team, consisting of men and women of various ethnicities, is animatedly discussing a project with digital tablets and laptops open on the table. A large screen displays a graph presentation, and post-it notes are scattered around. The atmosphere is collaborative and focused, conveying teamwork and innovation.",
+        "tags": ["business", "meeting", "teamwork", "collaboration", "diversity", "technology"]
+    },
+    {
+        "id": 2,
+        "image_title": "Healthy Lifestyle in the Kitchen",
+        "prompts": "A middle-aged couple in a brightly lit kitchen preparing a healthy meal together. The countertop is filled with fresh vegetables, fruits, and a blender. The woman is chopping vegetables while the man is smiling, looking at a tablet with a recipe on the screen. The kitchen is modern, with stainless steel appliances and natural light streaming through a large window.",
+        "tags": ["healthy lifestyle", "cooking", "kitchen", "couple", "nutrition", "modern"]
+    },
+    {
+        "id": 3,
+        "image_title": "Urban Commuter on the Move",
+        "prompts": "A young professional woman, dressed in smart casual attire, walking briskly through a bustling city street during rush hour. She is holding a cup of coffee and checking her smartphone, with a laptop bag slung over her shoulder. Skyscrapers and busy traffic surround her, emphasizing the fast-paced urban environment. The image captures the essence of city life and the hustle of daily commuters.",
+        "tags": ["urban", "commuter", "city", "professional", "technology", "lifestyle"]
+    },
+    {
+        "id": 4,
+        "image_title": "Family Fun in the Park",
+        "prompts": "A joyful family with two children enjoying a sunny day in a park. The parents are playing catch with their kids on a grassy field, while a picnic blanket with a basket is spread out nearby. The trees are lush and green, and other families can be seen in the background, enjoying the picturesque setting. The scene radiates happiness and family bonding.",
+        "tags": ["family", "park", "outdoor", "happiness", "children", "nature"]
+    },
+    {
+        "id": 5,
+        "image_title": "Remote Work in a Cozy Home Office",
+        "prompts": "A modern home office setup with a sleek desk, ergonomic chair, and a large window letting in natural light. A laptop is open with work documents displayed, and a cup of coffee sits beside it. Bookshelves line the wall, filled with books and decorative items. A person is seated, deeply focused on their work, embodying the remote work lifestyle.",
+        "tags": ["remote work", "home office", "technology", "productivity", "modern", "interior"]
+    },
+    {
+        "id": 6,
+        "image_title": "Senior Volunteer Community Service",
+        "prompts": "An elderly man actively participating in a community garden project. He is wearing a sun hat, gloves, and a smile as he plants flowers alongside younger volunteers. The garden is vibrant with various plants and flowers in bloom. This image captures the spirit of community service and intergenerational collaboration, showcasing seniors contributing positively to society.",
+        "tags": ["volunteer", "community", "senior", "gardening", "intergenerational", "service"]
+    },
+    {
+        "id": 7,
+        "image_title": "Tech Startup Team Brainstorming",
+        "prompts": "A lively group of young entrepreneurs in a creative office space, having a brainstorming session. The room is filled with whiteboards covered in diagrams, sticky notes, and sketches. Laptops and tablets are scattered around as team members engage in animated discussions. The atmosphere is energetic and innovative, reflecting the dynamic environment of a tech startup.",
+        "tags": ["startup", "technology", "brainstorming", "entrepreneurship", "innovation", "teamwork"]
+    },
+    {
+        "id": 8,
+        "image_title": "Fitness Training in Nature",
+        "prompts": "A fit individual practicing yoga on a mat in a serene outdoor setting, surrounded by lush greenery. The person is in a focused pose, with morning sunlight filtering through the trees, casting gentle shadows on the ground. Birds can be heard chirping in the background. This image embodies health, mindfulness, and the connection with nature.",
+        "tags": ["fitness", "yoga", "nature", "health", "mindfulness", "outdoor"]
+    },
+    {
+        "id": 9,
+        "image_title": "Gourmet Chef at Work",
+        "prompts": "A professional chef in a bustling restaurant kitchen, skillfully preparing a gourmet dish. The chef is focused, surrounded by fresh ingredients, pots, pans, and the hustle of kitchen staff. The kitchen is modern and stainless-steel appliances gleam under the bright lights. This captures the intensity and passion of culinary arts and fine dining.",
+        "tags": ["chef", "gourmet", "cooking", "kitchen", "culinary", "restaurant"]
+    },
+    {
+        "id": 10,
+        "image_title": "Sustainable Agriculture Farming",
+        "prompts": "A farmer in a wide-brimmed hat tending to rows of crops on a sustainable farm. The field is expansive, with a clear blue sky overhead and distant mountains on the horizon. The farmer is inspecting the plants, ensuring their healthy growth. This image highlights the importance of sustainable farming practices and the dedication of farmers to environmental stewardship.",
+        "tags": ["agriculture", "farming", "sustainability", "nature", "environment", "rural"]
+    }
+]

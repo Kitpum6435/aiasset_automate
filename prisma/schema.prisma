@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AutomationSetting {
+  id        Int      @id @default(1)
+  isRunning Boolean  @default(false)
+  ratio     String   @default("1:1")
+  updatedAt DateTime
+}
+
+model GeneratedImage {
+  id                 Int              @id @default(autoincrement())
+  image_title        String
+  prompts            String
+  tags               Json
+  create_prompt_dt   Json
+  image_file         String?
+  model              String
+  ratio              String
+  size               String
+  response           Json?
+  create_image_dt    Json?
+  resize_image_cover String?
+  resize_image_thumb String?
+  createdAt          DateTime         @default(now())
+  status             GenerationStatus @default(waiting)
+}
+
+enum GenerationStatus {
+  waiting
+  processing
+  completed
+  failed
+}
