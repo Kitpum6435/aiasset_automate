@@ -18,7 +18,7 @@ export async function generateBatch20Prompts() {
       status: "waiting",
     },
     orderBy: { createdAt: "asc" },
-    take: 30,
+    take: 20,
   });
   if (items.length === 0) {
     console.log("✅ ไม่มี prompt ที่รอการ generate แล้ว");

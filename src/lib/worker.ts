@@ -3,6 +3,22 @@ import axios from "axios";
 import fs from "fs";
 import path from "path";
 
+// ✅ ให้ TypeScript รู้จัก globalThis.automationSettings
+export {};
+declare global {
+  // eslint-disable-next-line no-var
+  var automationSettings: {
+    isRunning: boolean;
+    selectedRatio?: string;
+    lastRun?: string;
+  };
+}
+
+// ✅ กำหนดค่าเริ่มต้นให้ globalThis
+globalThis.automationSettings = globalThis.automationSettings || {
+  isRunning: true,
+  selectedRatio: "1:1",
+};
 
 const prisma = new PrismaClient();
 
@@ -21,13 +37,14 @@ async function generateNextImage() {
   if (!prompt) return;
 
   try {
-    const versionId = "352185dbc99e9dd708b78b4e6870e3ca49d00dc6451a32fc6dd57968194fae5a";
+    const versionId = "352185dbc99e9dd708b78b4e6870e3ca49d00dc6451a32fc6dd57968194fae5a"; // flux-1.1-pro-ultra
+
     const prediction = await axios.post(
       `https://api.replicate.com/v1/models/black-forest-labs/flux-1.1-pro-ultra/versions/${versionId}/predictions`,
       {
         input: {
           prompt: prompt.prompts,
-          aspect_ratio: globalThis.automationSettings?.selectedRatio || "1:1",
+          aspect_ratio: globalThis.automationSettings.selectedRatio || "1:1",
         },
       },
       {
@@ -59,6 +76,7 @@ async function generateNextImage() {
       const slug = slugify(prompt.imageTitle);
       const timestamp = Math.floor(Date.now() / 1000);
       const fileName = `${slug}-${timestamp}.jpg`;
+
       const saveDir = path.join(process.cwd(), "public", "medias", "ai", "stock-asset");
       if (!fs.existsSync(saveDir)) fs.mkdirSync(saveDir, { recursive: true });
 
@@ -79,14 +97,17 @@ async function generateNextImage() {
 
       globalThis.automationSettings.lastRun = new Date().toISOString();
     } else {
-      await prisma.generatedImage.update({ where: { id: prompt.id }, data: { status: "failed" } });
+      await prisma.generatedImage.update({
+        where: { id: prompt.id },
+        data: { status: "failed" },
+      });
     }
   } catch (e) {
     console.error("🔥 Worker error:", e);
   }
 }
 
-// ✅ Auto-run loop every 5 sec
+// ✅ วนรอบทุก 5 วินาที
 setInterval(() => {
   generateNextImage().catch(console.error);
 }, 5000);

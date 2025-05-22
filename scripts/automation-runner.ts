@@ -43,3 +43,5 @@ runWorkerLoop()
     console.error("❌ Automation runner crashed:", err);
   })
   .finally(() => prisma.$disconnect());
+
+//ไม่ Drop Field ของ 

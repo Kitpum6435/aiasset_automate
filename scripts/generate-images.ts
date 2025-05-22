@@ -85,8 +85,8 @@ async function generateImages() {
         await fs.promises.writeFile(fullPath, imageBuffer.data);
 
         const storedPath = `medias/ai/stock-asset/${fileName}`;
-        const coverPath = `/storage/app/ai/stock-asset/${slug}-${timestamp}-cover.jpg`;
-        const thumbPath = `/storage/app/ai/stock-asset/${slug}-${timestamp}-thumb.jpg`;
+        const coverPath = `storage/app/ai/stock-asset/${slug}-${timestamp}-cover.jpg`;
+        const thumbPath = `storage/app/ai/stock-asset/${slug}-${timestamp}-thumb.jpg`;
 
         await prisma.generatedImage.update({
           where: { id: item.id },
