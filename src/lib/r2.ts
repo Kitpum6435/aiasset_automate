@@ -1,23 +1,24 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
-export const r2 = new S3Client({
+const s3 = new S3Client({
   region: "auto",
-  endpoint: process.env.CLOUDFLARE_R2_ENDPOINT,
+  endpoint: `https://${process.env.CF_R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
   credentials: {
-    accessKeyId: process.env.CLOUDFLARE_R2_ACCESS_KEY!,
-    secretAccessKey: process.env.CLOUDFLARE_R2_SECRET_KEY!,
+    accessKeyId: process.env.CF_R2_ACCESS_KEY!,
+    secretAccessKey: process.env.CF_R2_SECRET_KEY!,
   },
 });
 
-export async function uploadToR2(fileName: string, buffer: Buffer, contentType = "image/jpeg") {
-  const command = new PutObjectCommand({
-    Bucket: process.env.CLOUDFLARE_R2_BUCKET!,
-    Key: fileName,
-    Body: buffer,
-    ContentType: contentType,
-  });
+export async function uploadToR2(filePath: string, buffer: Buffer): Promise<string> {
+  const bucket = process.env.CF_R2_BUCKET!;
+  await s3.send(
+    new PutObjectCommand({
+      Bucket: bucket,
+      Key: filePath,
+      Body: buffer,
+      ContentType: "image/jpeg",
+    })
+  );
 
-  await r2.send(command);
-
-  return `${process.env.CLOUDFLARE_R2_PUBLIC_URL}/${fileName}`;
+  return `https://ai.bluweo.com/${filePath}`;
 }
