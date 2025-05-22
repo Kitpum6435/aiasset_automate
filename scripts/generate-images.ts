@@ -84,7 +84,7 @@ async function generateImages() {
         const fullPath = path.join(saveDir, fileName);
         await fs.promises.writeFile(fullPath, imageBuffer.data);
 
-        const storedPath = `/public/medias/ai/stock-asset/${fileName}`;
+        const storedPath = `medias/ai/stock-asset/${fileName}`;
         const coverPath = `/storage/app/ai/stock-asset/${slug}-${timestamp}-cover.jpg`;
         const thumbPath = `/storage/app/ai/stock-asset/${slug}-${timestamp}-thumb.jpg`;
 

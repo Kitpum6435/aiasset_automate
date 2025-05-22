@@ -11,12 +11,16 @@ function slugify(str: string) {
 
 export async function generateNextImage(ratio: string) {
   const item = await prisma.generatedImage.findFirst({
-    where: { image_file: "", status: "waiting" },
+    where: {
+      OR: [{ imageFile: null }, { imageFile: "" }],
+      status: "waiting",
+    },
     orderBy: { createdAt: "asc" },
   });
+
   if (!item) return null;
 
-  console.log(`🚀 Generating image for: ${item.image_title}`);
+  console.log(`🚀 Generating image for: ${item.imageTitle}`);
 
   const versionId = "352185dbc99e9dd708b78b4e6870e3ca49d00dc6451a32fc6dd57968194fae5a";
   const model = "black-forest-labs/flux-1.1-pro-ultra";
@@ -53,18 +57,24 @@ export async function generateNextImage(ratio: string) {
   }
 
   if (result.status !== "succeeded") {
-    await prisma.generatedImage.update({ where: { id: item.id }, data: { status: "failed" } });
+    await prisma.generatedImage.update({
+      where: { id: item.id },
+      data: { status: "failed" },
+    });
     return null;
   }
 
   const outputUrl = Array.isArray(result.output) ? result.output[0] : result.output;
   const imageBuffer = await axios.get(outputUrl, { responseType: "arraybuffer" });
 
-  const slug = slugify(item.image_title);
+  const slug = slugify(item.imageTitle);
   const timestamp = Math.floor(Date.now() / 1000);
   const fileName = `${slug}-${timestamp}.jpg`;
   const saveDir = path.join(process.cwd(), "public", "medias", "ai", "stock-asset");
-  if (!fs.existsSync(saveDir)) fs.mkdirSync(saveDir, { recursive: true });
+
+  if (!fs.existsSync(saveDir)) {
+    fs.mkdirSync(saveDir, { recursive: true });
+  }
 
   const fullPath = path.join(saveDir, fileName);
   await fs.promises.writeFile(fullPath, imageBuffer.data);
@@ -72,17 +82,15 @@ export async function generateNextImage(ratio: string) {
   await prisma.generatedImage.update({
     where: { id: item.id },
     data: {
-      image_file: `/medias/ai/stock-asset/${fileName}`,
+      imageFile: `medias/ai/stock-asset/${fileName}`,
       response: result,
       status: "completed",
-      create_image_dt: { generated_at: new Date().toISOString() },
-      resize_image_cover: `/medias/ai/stock-asset/${slug}-${timestamp}-cover.jpg`,
-      resize_image_thumb: `/medias/ai/stock-asset/${slug}-${timestamp}-thumb.jpg`,
+      createImageDt: { generated_at: new Date().toISOString() },
+      resizeImageCover: `medias/ai/stock-asset/${slug}-${timestamp}-cover.jpg`,
+      resizeImageThumb: `medias/ai/stock-asset/${slug}-${timestamp}-thumb.jpg`,
     },
   });
 
   console.log(`✅ Image saved: ${fileName}`);
   return fileName;
 }
-
-

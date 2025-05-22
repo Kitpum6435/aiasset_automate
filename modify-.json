@@ -58,5 +58,125 @@
         "image_title": "Sustainable Agriculture Farming",
         "prompts": "A farmer in a wide-brimmed hat tending to rows of crops on a sustainable farm. The field is expansive, with a clear blue sky overhead and distant mountains on the horizon. The farmer is inspecting the plants, ensuring their healthy growth. This image highlights the importance of sustainable farming practices and the dedication of farmers to environmental stewardship.",
         "tags": ["agriculture", "farming", "sustainability", "nature", "environment", "rural"]
+    },
+    {
+        "id": 11,
+        "image_title": "Dynamic Team Meeting",
+        "prompts": "Capture a hyper-realistic image of a diverse team of Asian and mixed-ethnicity professionals in a modern office setting, engaged in a collaborative meeting. The room is filled with dynamic lighting from large windows, casting natural sunlight. The team is animatedly discussing ideas, with laptops and notepads scattered on the sleek conference table. Award-winning composition is a must.",
+        "tags": ["team", "office", "meeting", "collaboration", "diverse", "Asian", "modern", "professional", "dynamic lighting"]
+    },
+    {
+        "id": 12,
+        "image_title": "Innovative Tech Workspace",
+        "prompts": "Create an ultra-realistic image of a tech-savvy Asian and mixed-ethnicity team working in a cutting-edge startup office. The space is filled with advanced technology and futuristic gadgets. Dynamic lighting highlights the focus and creativity of the team members, who are deeply engaged with their digital workstations. This award-winning image should exude innovation.",
+        "tags": ["tech", "workspace", "startup", "innovation", "Asian", "mixed-ethnicity", "futuristic", "dynamic lighting"]
+    },
+    {
+        "id": 13,
+        "image_title": "Culinary Excellence",
+        "prompts": "Produce a hyper-realistic, award-winning photograph of an Asian and mixed-ethnicity chef team preparing gourmet dishes in a state-of-the-art kitchen. The scene is bathed in dynamic lighting that accentuates the vibrant colors and textures of the ingredients. The chefs are focused and precise, showcasing culinary excellence and teamwork.",
+        "tags": ["culinary", "chef", "kitchen", "gourmet", "Asian", "mixed-ethnicity", "teamwork", "dynamic lighting"]
+    },
+    {
+        "id": 14,
+        "image_title": "Fashion Forward",
+        "prompts": "Design an ultra-realistic image of an Asian and mixed-ethnicity fashion designer team in a contemporary studio. The room is filled with dynamic lighting and vibrant fabrics. The designers are passionately brainstorming and sketching new ideas, surrounded by mannequins and sewing machines. This award-winning image should capture the essence of creativity and style.",
+        "tags": ["fashion", "design", "studio", "creativity", "Asian", "mixed-ethnicity", "dynamic lighting", "style"]
+    },
+    {
+        "id": 15,
+        "image_title": "Healthcare Heroes",
+        "prompts": "Create a hyper-realistic, award-winning image of an Asian and mixed-ethnicity medical team in a busy hospital environment. Dynamic lighting emphasizes the dedication and compassion of the healthcare professionals as they attend to patients and collaborate on medical charts. The image should communicate a sense of urgency and care.",
+        "tags": ["healthcare", "hospital", "medical", "team", "Asian", "mixed-ethnicity", "compassion", "dynamic lighting"]
+    },
+    {
+        "id": 16,
+        "image_title": "Innovative Education",
+        "prompts": "Capture an ultra-realistic image of an Asian and mixed-ethnicity group of educators and students in a modern classroom. The space is equipped with digital learning tools and dynamic lighting that highlights the engagement and curiosity of the students. This award-winning image should reflect a forward-thinking approach to education.",
+        "tags": ["education", "classroom", "learning", "students", "Asian", "mixed-ethnicity", "innovation", "dynamic lighting"]
+    },
+    {
+        "id": 17,
+        "image_title": "Global Business Strategy",
+        "prompts": "Produce a hyper-realistic image of an Asian and mixed-ethnicity executive team in a high-rise boardroom, strategizing over a global business plan. The room features dynamic lighting and a panoramic view of the city skyline. This award-winning image should convey leadership, ambition, and a global perspective.",
+        "tags": ["business", "strategy", "boardroom", "executive", "Asian", "mixed-ethnicity", "leadership", "dynamic lighting"]
+    },
+    {
+        "id": 18,
+        "image_title": "Sustainable Urban Development",
+        "prompts": "Design an ultra-realistic, award-winning image of an Asian and mixed-ethnicity team of architects and urban planners working on sustainable city models. The workspace is filled with dynamic lighting and eco-friendly materials. Team members are deeply engaged in discussions and model building, reflecting innovation in urban development.",
+        "tags": ["architecture", "urban planning", "sustainability", "team", "Asian", "mixed-ethnicity", "innovation", "dynamic lighting"]
+    },
+    {
+        "id": 19,
+        "image_title": "Cultural Celebration",
+        "prompts": "Create a hyper-realistic image of a diverse group of Asian and mixed-ethnicity individuals participating in a vibrant cultural festival. Dynamic lighting highlights the colorful traditional attire and joyful expressions. This award-winning image should capture the essence of cultural diversity and celebration.",
+        "tags": ["cultural", "festival", "celebration", "diversity", "Asian", "mixed-ethnicity", "traditional", "dynamic lighting"]
+    },
+    {
+        "id": 20,
+        "image_title": "Wellness Retreat",
+        "prompts": "Produce an ultra-realistic, award-winning image of an Asian and mixed-ethnicity group participating in a wellness retreat in a serene natural setting. The scene is bathed in dynamic lighting, with participants engaged in yoga and meditation. The image should convey tranquility, health, and the beauty of nature.",
+        "tags": ["wellness", "retreat", "nature", "yoga", "meditation", "Asian", "mixed-ethnicity", "tranquility", "dynamic lighting"]
+    },
+     {
+        "id": 21,
+        "image_title": "Business Meeting in Modern Office",
+        "prompts": "Capture an ultra hyper realistic image of a diverse group of Asian and mixed-ethnicity professionals engaging in a business meeting within a modern glass-walled office. The dynamic lighting should highlight their attentive expressions and collaborative spirit, with cityscape views in the background. The image should convey professionalism, innovation, and teamwork.",
+        "tags": ["business", "meeting", "office", "diverse", "professional", "cityscape"]
+    },
+    {
+        "id": 22,
+        "image_title": "Culinary Team in Action",
+        "prompts": "Create an award-winning ultra hyper realistic image of an Asian and mixed-ethnicity culinary team working in a high-end restaurant kitchen. The dynamic lighting should accentuate the vibrant colors of fresh ingredients and the focused expressions of chefs. The image should convey teamwork, culinary skill, and passion for food.",
+        "tags": ["culinary", "team", "restaurant", "kitchen", "chefs", "food"]
+    },
+    {
+        "id": 23,
+        "image_title": "Tech Innovators Brainstorming",
+        "prompts": "Produce an ultra hyper realistic image of a diverse group of Asian and mixed-ethnicity tech innovators brainstorming in a cutting-edge workspace. Dynamic lighting should illuminate their faces as they engage with digital screens and futuristic devices. The image should evoke creativity, technology, and forward-thinking innovation.",
+        "tags": ["technology", "innovation", "brainstorming", "workspace", "creative", "futuristic"]
+    },
+    {
+        "id": 24,
+        "image_title": "Healthcare Professionals in a Hospital",
+        "prompts": "Capture an ultra hyper realistic image of Asian and mixed-ethnicity healthcare professionals in a hospital setting. Dynamic lighting should highlight their compassionate expressions as they interact with patients and use medical equipment. The image should convey care, expertise, and a commitment to health and wellness.",
+        "tags": ["healthcare", "hospital", "professionals", "patients", "medical", "wellness"]
+    },
+    {
+        "id": 25,
+        "image_title": "Creative Designers at Work",
+        "prompts": "Create an ultra hyper realistic image of Asian and mixed-ethnicity creative designers collaborating in a vibrant studio. Dynamic lighting should emphasize their focus as they sketch and discuss ideas surrounded by colorful materials. The image should convey creativity, design, teamwork, and artistic passion.",
+        "tags": ["creative", "design", "studio", "collaboration", "artistic", "teamwork"]
+    },
+    {
+        "id": 26,
+        "image_title": "Family Enjoying a Day in the Park",
+        "prompts": "Produce an ultra hyper realistic image of an Asian and mixed-ethnicity family enjoying a sunny day in a lush park. Dynamic lighting should capture their joyful expressions as they picnic and play, surrounded by vibrant greenery and blooming flowers. The image should evoke happiness, family time, and nature.",
+        "tags": ["family", "park", "nature", "joy", "outdoors", "happiness"]
+    },
+    {
+        "id": 27,
+        "image_title": "Fashion Designers Presenting New Collection",
+        "prompts": "Capture an ultra hyper realistic image of Asian and mixed-ethnicity fashion designers presenting their new collection in a chic showroom. Dynamic lighting should highlight their innovative designs and the designers' confident expressions. The image should convey style, creativity, and the cutting-edge of fashion.",
+        "tags": ["fashion", "designers", "showroom", "style", "creativity", "chic"]
+    },
+    {
+        "id": 28,
+        "image_title": "Young Entrepreneurs in a Startup Office",
+        "prompts": "Create an ultra hyper realistic image of Asian and mixed-ethnicity young entrepreneurs in a vibrant startup office. Dynamic lighting should illuminate their innovative ideas as they brainstorm and work on laptops. The image should convey entrepreneurship, ambition, and the hustle of startup culture.",
+        "tags": ["entrepreneurs", "startup", "office", "innovation", "ambition", "hustle"]
+    },
+    {
+        "id": 29,
+        "image_title": "Researchers in a High-Tech Laboratory",
+        "prompts": "Produce an ultra hyper realistic image of Asian and mixed-ethnicity researchers working in a high-tech laboratory. Dynamic lighting should focus on their intent expressions as they analyze data and engage with advanced scientific equipment. The image should convey research, technology, and scientific inquiry.",
+        "tags": ["research", "laboratory", "technology", "science", "inquiry", "high-tech"]
+    },
+    {
+        "id": 30,
+        "image_title": "Musicians Performing Live",
+        "prompts": "Capture an ultra hyper realistic image of Asian and mixed-ethnicity musicians passionately performing live on stage. Dynamic lighting should highlight their intense focus and the vibrant energy of the crowd. The image should convey music, performance, and the excitement of a live concert experience.",
+        "tags": ["music", "performance", "live", "concert", "musicians", "energy"]
     }
 ]

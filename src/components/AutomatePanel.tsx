@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Toaster, toast } from "sonner";
+import { defaultRatio } from "@/lib/randomDefaults";
 import {
   Dialog,
   DialogContent,
@@ -20,6 +21,7 @@ interface Status {
   isRunning: boolean;
   lastRun: string | null;
   ratio?: string;
+  model?: string;
 }
 
 interface ImageItem {
@@ -35,13 +37,15 @@ interface ImageItem {
   createdAt: string;
 }
 
-const ratios = ["1:1", "16:9", "3:2", "4:3"];
+const ratios = ["random", "1:1", "16:9", "3:2", "4:3", "2:3", "3:4", "9:16", "21:9"];
+const models = ["random", "flux-1.1-pro-ultra", "ideogram-v3-quality"];
 
 export default function AutomationPage() {
   const [status, setStatus] = useState<Status>({ isRunning: false, lastRun: null });
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState<ImageItem[]>([]);
-  const [selectedRatio, setSelectedRatio] = useState("1:1");
+  const [selectedRatio, setSelectedRatio] = useState("random");
+  const [selectedModel, setSelectedModel] = useState("random");
   const [error, setError] = useState<string | null>(null);
   const [regenLoadingId, setRegenLoadingId] = useState<number | null>(null);
   const [selectedImage, setSelectedImage] = useState<ImageItem | null>(null);
@@ -71,11 +75,14 @@ export default function AutomationPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.post("/api/automation/play", { ratio: selectedRatio });
+      const res = await axios.post("/api/automation/play", { 
+        ratio: selectedRatio,
+        model: selectedModel 
+      });
       if (!res.data.success) throw new Error("Failed to start automation");
       await fetchStatus();
       toast.success("Automation started successfully", {
-        description: `Running with ${selectedRatio} ratio`,
+        description: `Running with ${selectedModel} model and ${selectedRatio} ratio`,
         icon: <PlayIcon className="size-4" />
       });
     } catch {
@@ -155,49 +162,103 @@ export default function AutomationPage() {
 
       <Card className="mb-8">
         <CardContent className="p-4 sm:p-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <div className="w-full sm:w-40">
-              <Select value={selectedRatio} onValueChange={setSelectedRatio} disabled={status.isRunning || loading}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select Ratio" />
-                </SelectTrigger>
-                <SelectContent>
-                  {ratios.map((r) => (
-                    <SelectItem key={r} value={r}>{r}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+          <div className="flex flex-col gap-4">
+            {/* Model and Ratio Selection Row */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="w-full sm:w-40">
+                <label className="text-sm font-medium text-gray-700 mb-1 block">Model</label>
+                <Select value={selectedModel} onValueChange={setSelectedModel} disabled={status.isRunning || loading}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select Model" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {models.map((model) => (
+                      <SelectItem key={model} value={model}>
+                        {model === "random" ? "🎲 Random" : model}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="w-full sm:w-40">
+                <label className="text-sm font-medium text-gray-700 mb-1 block">Ratio</label>
+                <Select value={selectedRatio} onValueChange={setSelectedRatio} disabled={status.isRunning || loading}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select Ratio" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {ratios.map((ratio) => (
+                      <SelectItem key={ratio} value={ratio}>
+                        {ratio === "random" ? "🎲 Random" : ratio}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
-            <div className="flex gap-3 w-full sm:w-auto">
-              <Button 
-                className="w-full sm:w-auto" 
-                disabled={loading || status.isRunning} 
-                onClick={handlePlay}
-              >
-                {loading ? (
-                  <Loader2Icon className="size-4 mr-2 animate-spin" />
-                ) : (
-                  <PlayIcon className="size-4 mr-2" />
-                )}
-                Start
-              </Button>
-              
-              <Button 
-                variant="outline"
-                className="w-full sm:w-auto" 
-                disabled={loading || !status.isRunning} 
-                onClick={handlePause}
-              >
-                <PauseIcon className="size-4 mr-2" />
-                Pause
-              </Button>
+            {/* Control Buttons and Status Row */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="flex gap-3 w-full sm:w-auto">
+                <Button 
+                  className="w-full sm:w-auto" 
+                  disabled={loading || status.isRunning} 
+                  onClick={handlePlay}
+                >
+                  {loading ? (
+                    <Loader2Icon className="size-4 mr-2 animate-spin" />
+                  ) : (
+                    <PlayIcon className="size-4 mr-2" />
+                  )}
+                  Start
+                </Button>
+                
+                <Button 
+                  variant="outline"
+                  className="w-full sm:w-auto" 
+                  disabled={loading || !status.isRunning} 
+                  onClick={handlePause}
+                >
+                  <PauseIcon className="size-4 mr-2" />
+                  Pause
+                </Button>
+              </div>
+
+              {status.lastRun && (
+                <div className="flex items-center gap-2 text-sm text-gray-500 sm:ml-auto">
+                  <InfoIcon className="size-4" />
+                  <span>Last run: {new Date(status.lastRun).toLocaleTimeString()}</span>
+                </div>
+              )}
             </div>
 
-            {status.lastRun && (
-              <div className="flex items-center gap-2 text-sm text-gray-500 ml-auto">
-                <InfoIcon className="size-4" />
-                <span>Last run: {new Date(status.lastRun).toLocaleTimeString()}</span>
+            {/* Current Settings Display */}
+            {(status.isRunning && (status.model || status.ratio)) && (
+              <div className="bg-blue-50 p-3 rounded-lg">
+                <div className="text-sm font-medium text-blue-800 mb-1">Current Settings:</div>
+                <div className="flex gap-2">
+                  {status.model && (
+                    <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                      Model: {status.model}
+                    </Badge>
+                  )}
+                  {status.ratio && (
+                    <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                      Ratio: {status.ratio}
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Error Display */}
+            {error && (
+              <div className="bg-red-50 p-3 rounded-lg border border-red-200">
+                <div className="flex items-center gap-2 text-red-800">
+                  <AlertCircle className="size-4" />
+                  <span className="text-sm font-medium">{error}</span>
+                </div>
               </div>
             )}
           </div>
