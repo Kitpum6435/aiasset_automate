@@ -3,12 +3,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
-import { Loader2Icon, PlayIcon, PauseIcon, RefreshCcwIcon, CheckCircle, AlertCircle, InfoIcon, XIcon } from "lucide-react";
+import { Loader2Icon, PlayIcon, PauseIcon, RefreshCcwIcon, CheckCircle, AlertCircle, InfoIcon} from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Toaster, toast } from "sonner";
-import { defaultRatio } from "@/lib/randomDefaults";
 import {
   Dialog,
   DialogContent,

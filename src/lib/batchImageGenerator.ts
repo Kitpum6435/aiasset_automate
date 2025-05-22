@@ -51,7 +51,7 @@ export async function generateBatch20Prompts() {
         });
         result = poll.data;
       }
-      if (result.status !== "succeeded") return handleFailedGeneration(item.id, "generation failed");
+      if (result.status !== "succeeded") return handleFailedGeneration(item.id);
 
       const outputUrl = Array.isArray(result.output) ? result.output[0] : result.output;
       const imageData = await axios.get(outputUrl, { responseType: "arraybuffer" });
@@ -64,7 +64,7 @@ export async function generateBatch20Prompts() {
       const fullPath = path.join(folder, `${fileName}.jpg`);
       await fs.writeFile(fullPath, imageData.data);
 
-      if (await isImageCorrupted(fullPath)) return handleFailedGeneration(item.id, "image corrupted");
+      if (await isImageCorrupted(fullPath)) return handleFailedGeneration(item.id);
 
       await prisma.generatedImage.update({
         where: { id: item.id },
@@ -82,9 +82,8 @@ export async function generateBatch20Prompts() {
       });
 
       resetFailCount();
-    } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : String(err);
-      await handleFailedGeneration(item.id, errorMsg);
+    } catch {
+      await handleFailedGeneration(item.id);
     }
   }));
 

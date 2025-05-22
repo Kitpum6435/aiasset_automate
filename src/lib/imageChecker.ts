@@ -1,6 +1,4 @@
 import sharp from "sharp";
-import fs from "fs/promises";
-import path from "path";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 const MAX_FAILS = 10;
@@ -19,7 +17,7 @@ export async function isImageCorrupted(imagePath: string): Promise<boolean> {
   }
 }
 
-export async function handleFailedGeneration(id: number, reason: string) {
+export async function handleFailedGeneration(id: number) {
   await prisma.generatedImage.update({ where: { id }, data: { status: "failed" } });
   consecutiveFails++;
   if (consecutiveFails >= MAX_FAILS) {
