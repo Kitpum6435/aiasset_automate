@@ -1,9 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import axios from "axios";
-import fs from "fs/promises";
-import path from "path";
+import { uploadToR2 } from "@/lib/r2"; // ต้องเขียนฟังก์ชันนี้แยกต่างหาก
 import { getRandomModel, getRandomRatio, generateTagsFromPrompt } from "./randomUtils";
-import { isImageCorrupted, handleFailedGeneration, resetFailCount } from "./imageChecker";
+import { handleFailedGeneration, resetFailCount } from "./imageChecker";
 
 const prisma = new PrismaClient();
 
@@ -43,6 +42,7 @@ export async function generateBatch20Prompts() {
         { input: { prompt: item.prompts, aspect_ratio: ratio } },
         { headers: { Authorization: `Token ${process.env.REPLICATE_API_TOKEN}` } }
       );
+
       let result = res.data;
       while (result.status !== "succeeded" && result.status !== "failed") {
         await new Promise(r => setTimeout(r, 1500));
@@ -51,6 +51,7 @@ export async function generateBatch20Prompts() {
         });
         result = poll.data;
       }
+
       if (result.status !== "succeeded") return handleFailedGeneration(item.id);
 
       const outputUrl = Array.isArray(result.output) ? result.output[0] : result.output;
@@ -58,13 +59,10 @@ export async function generateBatch20Prompts() {
 
       const slug = slugify(item.imageTitle);
       const timestamp = Date.now();
-      const fileName = `${slug}-${timestamp}`;
-      const folder = path.join(process.cwd(), "public", "medias", "ai", "stock-asset");
-      await fs.mkdir(folder, { recursive: true });
-      const fullPath = path.join(folder, `${fileName}.jpg`);
-      await fs.writeFile(fullPath, imageData.data);
+      const fileName = `${slug}-${timestamp}.jpg`;
+      const fullPath = `medias/ai/stock-asset/${fileName}`;
 
-      if (await isImageCorrupted(fullPath)) return handleFailedGeneration(item.id);
+      const r2Url = await uploadToR2(fullPath, Buffer.from(imageData.data)); // ⬅️ อัปโหลดขึ้น Cloudflare R2
 
       await prisma.generatedImage.update({
         where: { id: item.id },
@@ -72,17 +70,18 @@ export async function generateBatch20Prompts() {
           model: model.id,
           ratio,
           tags,
-          imageFile: `medias/ai/stock-asset/${fileName}.jpg`,
+          imageFile: r2Url,
           response: result,
           status: "completed",
           createImageDt: { generated_at: new Date().toISOString() },
-          resizeImageCover: `medias/ai/stock-asset/${fileName}-cover.jpg`,
-          resizeImageThumb: `medias/ai/stock-asset/${fileName}-thumb.jpg`,
+          resizeImageCover: r2Url.replace(".jpg", "-cover.jpg"),
+          resizeImageThumb: r2Url.replace(".jpg", "-thumb.jpg"),
         },
       });
 
       resetFailCount();
-    } catch {
+    } catch (err) {
+      console.error("❌ Generation error:", err);
       await handleFailedGeneration(item.id);
     }
   }));
