@@ -29,8 +29,8 @@ function slugify(str: string) {
 async function generateNextImage() {
   if (!globalThis.automationSettings?.isRunning) return;
 
-  const prompt = await prisma.generatedImage.findFirst({
-    where: { imageFile: "", status: "waiting" },
+  const prompt = await prisma.aiasset_automate.findFirst({
+    where: { image_file: "", status: "waiting" },
     orderBy: { createdAt: "asc" },
   });
 
@@ -73,7 +73,7 @@ async function generateNextImage() {
       const outputUrl = Array.isArray(result.output) ? result.output[0] : result.output;
       const imageBuffer = await axios.get(outputUrl, { responseType: "arraybuffer" });
 
-      const slug = slugify(prompt.imageTitle);
+      const slug = slugify(prompt.image_title);
       const timestamp = Math.floor(Date.now() / 1000);
       const fileName = `${slug}-${timestamp}.jpg`;
 
@@ -83,21 +83,21 @@ async function generateNextImage() {
       const savePath = path.join(saveDir, fileName);
       await fs.promises.writeFile(savePath, imageBuffer.data);
 
-      await prisma.generatedImage.update({
+      await prisma.aiasset_automate.update({
         where: { id: prompt.id },
         data: {
-          imageFile: `/medias/ai/stock-asset/${fileName}`,
-          createImageDt: { generated_at: new Date().toISOString() },
+          image_file: `/medias/ai/stock-asset/${fileName}`,
+          create_image_dt: { generated_at: new Date().toISOString() },
           response: result,
-          resizeImageCover: `/storage/app/ai/stock-asset/${slug}-${timestamp}-cover.jpg`,
-          resizeImageThumb: `/storage/app/ai/stock-asset/${slug}-${timestamp}-thumb.jpg`,
+          resize_image_cover: `/storage/app/ai/stock-asset/${slug}-${timestamp}-cover.jpg`,
+          resize_image_thumb: `/storage/app/ai/stock-asset/${slug}-${timestamp}-thumb.jpg`,
           status: "completed",
         },
       });
 
       globalThis.automationSettings.lastRun = new Date().toISOString();
     } else {
-      await prisma.generatedImage.update({
+      await prisma.aiasset_automate.update({
         where: { id: prompt.id },
         data: { status: "failed" },
       });

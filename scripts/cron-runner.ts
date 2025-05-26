@@ -1,7 +1,7 @@
 import cron from "node-cron";
 import { PrismaClient } from "@prisma/client";
 import { isQuotaExceeded } from "../src/lib/dailyQuota";
-import { generateBatch20Prompts } from "../src/lib/batchImageGenerator";
+import { generateBatchPrompts } from "../src/lib/batchImageGenerator";
 
 const prisma = new PrismaClient();
 
@@ -20,5 +20,5 @@ cron.schedule("*/5 * * * * *", async () => {
     return;
   }
 
-  await generateBatch20Prompts();
+  await generateBatchPrompts(5); // Pass the desired batch size as an argument
 });

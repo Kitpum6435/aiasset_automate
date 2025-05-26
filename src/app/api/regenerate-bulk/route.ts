@@ -3,13 +3,13 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function POST() {
-  await prisma.generatedImage.updateMany({
+  await prisma.aiasset_automate.updateMany({
     data: {
-      imageFile: "",
+      image_file: "",
       response: {},
-      resizeImageCover: "",
-      resizeImageThumb: "",
-      createImageDt: {},
+      resize_image_cover: "",
+      resize_image_thumb: "",
+      create_prompt_dt: {},
       status: "waiting",
     }
   });

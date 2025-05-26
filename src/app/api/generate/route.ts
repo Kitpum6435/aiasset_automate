@@ -87,20 +87,20 @@ export async function POST(req: Request) {
       const resizeImageCover = `${basePath}-cover.jpg`;
       const resizeImageThumb = `${basePath}-thumb.jpg`;
 
-      const saved = await prisma.generatedImage.create({
+      const saved = await prisma.aiasset_automate.create({
         data: {
-          imageTitle: image_title,
+          image_title: image_title,
           prompts: prompt,
           tags,
-          createPromptDt: { created_at: new Date().toISOString() },
-          imageFile,
+          create_prompt_dt: { created_at: new Date().toISOString() },
+          image_file: imageFile,
           model,
           ratio,
           size,
           response: result,
-          createImageDt: { created_at: new Date().toISOString() },
-          resizeImageCover,
-          resizeImageThumb
+          create_image_dt: { created_at: new Date().toISOString() },
+          resize_image_cover: resizeImageCover,
+          resize_image_thumb: resizeImageThumb
         }
       });
 

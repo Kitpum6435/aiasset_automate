@@ -7,14 +7,14 @@ export async function POST(req: Request) {
     const { id } = await req.json();
 
     // รีเซตข้อมูลให้เหมือน prompt ใหม่ และพร้อมให้ automation ทำงานต่อ
-    const updated = await prisma.generatedImage.update({
+    const updated = await prisma.aiasset_automate.update({
       where: { id },
       data: {
-        imageFile: "",
+        image_file: "",
         response: {},
-        resizeImageCover: "",
-        resizeImageThumb: "",
-        createImageDt: {},
+        resize_image_cover: "",
+        resize_image_thumb: "",
+        create_prompt_dt: {},
         status: "waiting" // ✅ ให้ worker ตรวจเจอและ generate ต่อได้เลย
       },
     });

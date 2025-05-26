@@ -11,14 +11,14 @@ function slugify(str: string) {
 }
 
 async function generateImages() {
-  const prompts = await prisma.generatedImage.findMany({
-    where: { imageFile: "", status: "waiting" },
+  const prompts = await prisma.aiasset_automate.findMany({
+    where: { image_file: "", status: "waiting" },
     take: 3
   });
 
   for (const item of prompts) {
     try {
-      console.log(`🚀 Generating image for: ${item.imageTitle}`);
+      console.log(`🚀 Generating image for: ${item.image_title}`);
 
       const versionId = "352185dbc99e9dd708b78b4e6870e3ca49d00dc6451a32fc6dd57968194fae5a";
       const prediction = await axios.post(
@@ -60,8 +60,8 @@ async function generateImages() {
         // ตรวจสอบว่า URL มีคำที่น่าสงสัยไหม
         const suspicious = /weird|fail|error/.test(outputUrl);
         if (suspicious) {
-          console.warn(`❌ Suspicious image detected for ${item.imageTitle}`);
-          await prisma.generatedImage.update({
+          console.warn(`❌ Suspicious image detected for ${item.image_title}`);
+          await prisma.aiasset_automate.update({
             where: { id: item.id },
             data: { status: "failed" }
           });
@@ -72,7 +72,7 @@ async function generateImages() {
           responseType: "arraybuffer"
         });
 
-        const slug = slugify(item.imageTitle);
+        const slug = slugify(item.image_title);
         const timestamp = Math.floor(Date.now() / 1000);
         const fileName = `${slug}-${timestamp}.jpg`;
         const saveDir = path.join(process.cwd(), "public", "medias" ,"ai", "stock-asset");
@@ -88,22 +88,22 @@ async function generateImages() {
         const coverPath = `storage/app/ai/stock-asset/${slug}-${timestamp}-cover.jpg`;
         const thumbPath = `storage/app/ai/stock-asset/${slug}-${timestamp}-thumb.jpg`;
 
-        await prisma.generatedImage.update({
+        await prisma.aiasset_automate.update({
           where: { id: item.id },
           data: {
-            imageFile: storedPath,
-            createImageDt: { generated_at: new Date().toISOString() },
+            image_file: storedPath,
+            create_prompt_dt: { generated_at: new Date().toISOString() },
             response: result,
-            resizeImageCover: coverPath,
-            resizeImageThumb: thumbPath,
+            resize_image_cover: coverPath,
+            resize_image_thumb: thumbPath,
             status: "completed"
           }
         });
 
         console.log(`✅ Saved to: ${storedPath}`);
       } else {
-        console.warn(`⚠️ Failed to generate for ${item.imageTitle}`);
-        await prisma.generatedImage.update({
+        console.warn(`⚠️ Failed to generate for ${item.image_title}`);
+        await prisma.aiasset_automate.update({
           where: { id: item.id },
           data: { status: "failed" }
         });

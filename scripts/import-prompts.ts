@@ -15,7 +15,7 @@ async function main() {
   let skipped = 0;
 
   for (const item of prompts) {
-    const exists = await prisma.generatedImage.findFirst({
+    const exists = await prisma.aiasset_automate.findFirst({
       where: { prompts: item.prompts }
     });
     if (exists) {
@@ -28,20 +28,20 @@ async function main() {
     const ratio = getRandomRatio();
     const tags = Array.isArray(item.tags) ? item.tags : generateTagsFromPrompt(item.prompts);
 
-    await prisma.generatedImage.create({
+    await prisma.aiasset_automate.create({
       data: {
-        imageTitle: item.image_title,
+        image_title: item.image_title,
         prompts: item.prompts,
         tags,
         model: model.id,
         ratio,
         size: "1600x900",
-        createPromptDt: { imported_at: new Date().toISOString() },
-        imageFile: "",
+        create_prompt_dt: { imported_at: new Date().toISOString() },
+        image_file: "",
         response: {},
-        createImageDt: {},
-        resizeImageCover: "",
-        resizeImageThumb: "",
+        create_image_dt: {},
+        resize_image_cover: "",
+        resize_image_thumb: "",
         status: "waiting",
       },
     });

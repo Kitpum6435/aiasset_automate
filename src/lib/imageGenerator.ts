@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import axios from "axios";
-import fs from "fs";
-import path from "path";
+import sharp from "sharp";
+import { uploadToR2 } from "@/lib/r2";
 
 const prisma = new PrismaClient();
 
@@ -10,9 +10,9 @@ function slugify(str: string) {
 }
 
 export async function generateNextImage(ratio: string) {
-  const item = await prisma.generatedImage.findFirst({
+  const item = await prisma.aiasset_automate.findFirst({
     where: {
-      OR: [{ imageFile: null }, { imageFile: "" }],
+      OR: [{ image_file: null }, { image_file: "" }],
       status: "waiting",
     },
     orderBy: { createdAt: "asc" },
@@ -20,7 +20,7 @@ export async function generateNextImage(ratio: string) {
 
   if (!item) return null;
 
-  console.log(`🚀 Generating image for: ${item.imageTitle}`);
+  console.log(`🚀 Generating image for: ${item.image_title}`);
 
   const versionId = "352185dbc99e9dd708b78b4e6870e3ca49d00dc6451a32fc6dd57968194fae5a";
   const model = "black-forest-labs/flux-1.1-pro-ultra";
@@ -57,7 +57,7 @@ export async function generateNextImage(ratio: string) {
   }
 
   if (result.status !== "succeeded") {
-    await prisma.generatedImage.update({
+    await prisma.aiasset_automate.update({
       where: { id: item.id },
       data: { status: "failed" },
     });
@@ -65,32 +65,35 @@ export async function generateNextImage(ratio: string) {
   }
 
   const outputUrl = Array.isArray(result.output) ? result.output[0] : result.output;
-  const imageBuffer = await axios.get(outputUrl, { responseType: "arraybuffer" });
+  const imageResponse = await axios.get(outputUrl, { responseType: "arraybuffer" });
+  const originalBuffer = Buffer.from(imageResponse.data);
 
-  const slug = slugify(item.imageTitle);
+  const slug = slugify(item.image_title);
   const timestamp = Math.floor(Date.now() / 1000);
-  const fileName = `${slug}-${timestamp}.jpg`;
-  const saveDir = path.join(process.cwd(), "public", "medias", "ai", "stock-asset");
+  const baseName = `medias/ai/stock-asset/${slug}-${timestamp}`;
 
-  if (!fs.existsSync(saveDir)) {
-    fs.mkdirSync(saveDir, { recursive: true });
-  }
+  // ✅ Resize รูป
+  const coverBuffer = await sharp(originalBuffer).resize(1200, 675).jpeg().toBuffer(); // 16:9
+  const thumbBuffer = await sharp(originalBuffer).resize(400, 225).jpeg().toBuffer();  // preview
 
-  const fullPath = path.join(saveDir, fileName);
-  await fs.promises.writeFile(fullPath, imageBuffer.data);
+  // ✅ อัปโหลดขึ้น R2
+  const originalUrl = await uploadToR2(`${baseName}.jpg`, originalBuffer);
+  const coverUrl = await uploadToR2(`${baseName}-cover.jpg`, coverBuffer);
+  const thumbUrl = await uploadToR2(`${baseName}-thumb.jpg`, thumbBuffer);
 
-  await prisma.generatedImage.update({
+  // ✅ อัปเดต DB
+  await prisma.aiasset_automate.update({
     where: { id: item.id },
     data: {
-      imageFile: `medias/ai/stock-asset/${fileName}`,
+      image_file: originalUrl,
       response: result,
       status: "completed",
-      createImageDt: { generated_at: new Date().toISOString() },
-      resizeImageCover: `medias/ai/stock-asset/${slug}-${timestamp}-cover.jpg`,
-      resizeImageThumb: `medias/ai/stock-asset/${slug}-${timestamp}-thumb.jpg`,
+      create_image_dt: { generated_at: new Date().toISOString() },
+      resize_image_cover: coverUrl,
+      resize_image_thumb: thumbUrl,
     },
   });
 
-  console.log(`✅ Image saved: ${fileName}`);
-  return fileName;
+  console.log(`✅ Image uploaded: ${originalUrl}`);
+  return originalUrl;
 }

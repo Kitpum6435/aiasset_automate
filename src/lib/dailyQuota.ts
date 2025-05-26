@@ -5,7 +5,7 @@ const DAILY_LIMIT = 200;
 
 export async function isQuotaExceeded(): Promise<boolean> {
   const todayStart = startOfDay(new Date());
-  const count = await prisma.generatedImage.count({
+  const count = await prisma.aiasset_automate.count({
     where: {
       createdAt: { gte: todayStart },
       status: "completed"

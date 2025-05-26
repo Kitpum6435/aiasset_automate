@@ -18,7 +18,7 @@ export async function isImageCorrupted(imagePath: string): Promise<boolean> {
 }
 
 export async function handleFailedGeneration(id: number) {
-  await prisma.generatedImage.update({ where: { id }, data: { status: "failed" } });
+  await prisma.aiasset_automate.update({ where: { id }, data: { status: "failed" } });
   consecutiveFails++;
   if (consecutiveFails >= MAX_FAILS) {
     await prisma.automationSetting.update({ where: { id: 1 }, data: { isRunning: false } });

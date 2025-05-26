@@ -7,31 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum GenerationStatus {
-  waiting
-  processing
-  completed
-  failed
-}
-
-model GeneratedImage {
-  id                Int      @id @default(autoincrement())
-  imageTitle        String   @map("image_title")
-  prompts           String   
-  tags              Json
-  createPromptDt    Json     @map("create_prompt_dt")
-  imageFile         String?  @map("image_file")
-  model             String
-  ratio             String
-  size              String
-  response          Json?
-  createImageDt     Json?    @map("create_image_dt")
-  resizeImageCover  String?  @map("resize_image_cover")
-  resizeImageThumb  String?  @map("resize_image_thumb")
-  status            GenerationStatus  @default(waiting)
-  createdAt         DateTime @default(now())
-}
-
 model AutomationSetting {
   id        Int      @id @default(1)
   isRunning Boolean  @default(false)
@@ -39,4 +14,29 @@ model AutomationSetting {
   updatedAt DateTime @updatedAt
 }
 
-// อยากได้ Structure ที่เก็บ Module 
+model aiasset_automate {
+  id                 Int              @id @default(autoincrement())
+  image_title        String          
+  prompts            String
+  tags               Json   
+  create_prompt_dt   Json
+  image_file         String?         
+  model              String
+  ratio              String
+  size               String
+  response           Json?
+  create_image_dt    Json?
+  resize_image_cover String?
+  resize_image_thumb String?
+  createdAt          DateTime         @default(now())
+  status             GenerationStatus @default(waiting)
+
+  @@map("GeneratedImage")
+}
+
+enum GenerationStatus {
+  waiting
+  processing
+  completed
+  failed
+}
